@@ -13,6 +13,38 @@ class OTPService(otp_pb2_grpc.OTPServiceServicer):
         
         return loop.run_until_complete(self._GenerateOTP(request,context))
     
+    def VerifyOTP(self, request, context):
+        email=request.email
+        otp=request.otp
+        stored_otp=redis.get(f"otp:{email}")
+        
+        
+        
+        try:
+           if not stored_otp:
+            return otp_pb2.VerifyOTPResponse(
+                success=False,
+                message="OTP Expired"
+            )
+            
+           if stored_otp.decode('utf-8')==otp:
+               return otp_pb2.VerifyOTPResponse(
+                success=True,
+                message="OTP Verified"
+            ) 
+           else:
+               return otp_pb2.VerifyOTPResponse(
+                success=False,
+                message="OTP not matced"
+               )    
+            
+        except Exception as e:
+            print(e)
+            return otp_pb2.VerifyOTPResponse(
+                success=False,
+                message="gRPC error"
+            )  
+    
     async def _GenerateOTP(self, request, context):
         email=request.email
         
