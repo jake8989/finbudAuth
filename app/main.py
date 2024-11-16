@@ -7,6 +7,7 @@ from app.redis.redisConfig import get_redis_database
 from app.gRPC import otp_pb2,otp_pb2_grpc
 from dotenv import load_dotenv
 import time
+import logging
 redis=get_redis_database()
 load_dotenv()
 
@@ -24,6 +25,9 @@ def serve():
          except Exception as e:
             print(f"Server crashed with error: {e}. Restarting in 5 seconds...")
             time.sleep(5)   
+            
+         finally:
+            logging.info("Cleaning up resources...")   
     
 
 
