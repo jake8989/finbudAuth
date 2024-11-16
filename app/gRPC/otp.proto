@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package otp;
+
+service OTPService {
+  rpc GenerateOTP (GenerateOTPRequest) returns (GenerateOTPResponse) {}
+  rpc VerifyOTP (VerifyOTPRequest) returns (VerifyOTPResponse) {}
+}
+
+message GenerateOTPRequest {
+  string email = 1;
+}
+
+message GenerateOTPResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message VerifyOTPRequest {
+  string email = 1;
+  string otp = 2;
+}
+
+message VerifyOTPResponse {
+  bool success = 1;
+  string message = 2;
+}
