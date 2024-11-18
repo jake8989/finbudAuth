@@ -62,8 +62,8 @@ class OTPService(otp_pb2_grpc.OTPServiceServicer):
                    success=False,
                    message='Failed to send email'
                 )
-            #set otp in redis for 2 minutes
-            redis.setex(f"otp:{email}", 120, user_otp)
+            #set otp in redis for 5 minutes
+            redis.setex(f"otp:{email}", 300, user_otp)  
             return otp_pb2.GenerateOTPResponse(success=True, message="OTP sent successfully to email.")
             
         except Exception as e:
