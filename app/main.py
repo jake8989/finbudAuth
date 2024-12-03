@@ -23,7 +23,7 @@ def serve():
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         otp_pb2_grpc.add_OTPServiceServicer_to_server(OTPService(), server=server)
         server.add_insecure_port(port)
-        print("Starting Auth Server on port: 3004")
+        print("Starting Auth Server")
         server.start()
         server.wait_for_termination()
     except Exception as e:
@@ -34,4 +34,5 @@ def serve():
         logging.info("Cleaning up resources...")
 
 
-serve()
+if __name__ == "__main__":
+    serve()
